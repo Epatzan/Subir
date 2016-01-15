@@ -1,0 +1,61 @@
+package practicacompi1s2;
+import java.io.*;
+import java_cup.runtime.*;
+import java.util.*;
+import javax.swing.JOptionPane;
+action code{:
+public void datos(Object copiado){
+programa.push(copiado);
+
+}
+
+:}
+parser code{:
+/**Metodo al que se llama automáticamente ante algún error sintactico.*/
+public void syntax_error(Symbol s){
+System.out.println("Error en la Línea " + (s.right+1) +" Columna "+s.left+ " Identificador '" +s.value + " 'no reconocido." );
+
+}:}
+terminal Tk_Coma,Tk_Suma,Tk_Resta,Tk_Diag,Tk_Por,Tk_Abrir,Tk_Cerrar,Tk_Puntos,Tk_Deci;
+terminal Tk_Azul,Tk_Rojo,Tk_Verde,Tk_Amarillo,Tk_Naranja,Tk_Morado,Tk_Cafe,Tk_Negro;
+terminal Tk_Graf,Tk_Cir,Tk_Cua,Tk_Line,Tk_Rec,Tk_Pol,Tk_Error;
+
+non  terminal  Linea0,Linea1,Linea2,Linea3,Linea4,Linea5,Linea6;
+
+precedence left Tk_Suma, Tk_Resta;
+precedence left Tk_Diag, Tk_Por;
+precedence left Tk_Abrir, Tk_Cerrar;
+
+start with Linea0;
+Linea0::= Tk_Graf Tk_Cir  Linea1
+        | Tk_Graf Tk_Cua  Linea1
+        | Tk_Graf Tk_Line Linea1
+        | Tk_Graf Tk_Rec  Linea1
+        | Tk_Graf Tk_Pol  Linea1
+        |{:System.out.println("Copilacion Exitosa");  JOptionPane.showMessageDialog(null, "Copilacion Exitosa ", "Copilacion", JOptionPane.WARNING_MESSAGE);:};
+
+Linea1::=Tk_Abrir  Linea2;
+
+Linea2::=Tk_Puntos Linea3
+        |Tk_Abrir  Linea2;        
+
+Linea3::=Tk_Coma   Linea4
+        |Tk_Suma   Linea2
+        |Tk_Resta  Linea2
+        |Tk_Por    Linea2
+        |Tk_Diag   Linea2
+        |Tk_Deci   Linea2
+        |Tk_Cerrar  Tk_Coma Linea2;
+
+Linea4::=Tk_Rojo     Linea5
+        |Tk_Azul     Linea5
+        |Tk_Verde    Linea5
+        |Tk_Amarillo Linea5
+        |Tk_Naranja  Linea5
+        |Tk_Morado   Linea5
+        |Tk_Cafe     Linea5
+        |Tk_Negro    Linea5
+        |Linea2;
+
+Linea5::= Tk_Cerrar Linea0;
+        
